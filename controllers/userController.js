@@ -53,7 +53,7 @@ module.exports = {
                     res.status(404).json({ message: 'No user with that ID' })
                 }
                 return Thought.findOneAndUpdate(
-                    { _id: req.body.thoughtID },
+                    { _id: req.body.thoughtId },
                     { $pull: { users: User._id } },
                     { new: true }
 
@@ -63,8 +63,8 @@ module.exports = {
 
     addFriend({ params }, res) {
         User.findOneAndUpdate(
-            { _id: params.id },
-            { $push: { friends: params.friendID } },
+            { _id: params.id.userId },
+            { $push: { friends: params.friendsId } },
             { runValidators: true, new: true }
         )
             .then(dbUserData => {
@@ -79,7 +79,7 @@ module.exports = {
 
     removeFriend(req, res) {
         User.findOneAndUpdate({
-            _id: req.params.id
+            _id: req.params.id.userId
         }, {
             $pull: {
                 friends: req.params.friendsId
